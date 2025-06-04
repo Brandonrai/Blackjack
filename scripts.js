@@ -9,6 +9,7 @@ let playerScore = 0;
 let dealerScore = 0;
 
 let gameStatus = 'playing';
+let deck; // Deck will be initialized when the game starts
 
 // Create a deck of cards
 function createDeck() {
@@ -64,8 +65,9 @@ function calculateScore(hand) {
 }
 
 // Start a new game
-function newGame(deck) {
-  gameStatus = 'playing'; // Add this line to reset the gameStatus
+function newGame() {
+  deck = shuffleDeck(createDeck());
+  gameStatus = 'playing'; // Reset the gameStatus
 
   playerCards = [dealCard(deck), dealCard(deck)];
   dealerCards = [dealCard(deck), dealCard(deck)];
@@ -78,7 +80,7 @@ function newGame(deck) {
 }
 
 // Hit
-function hit(deck) {
+function hit() {
   if (gameStatus === 'playing') {
     playerCards.push(dealCard(deck));
     playerScore = calculateScore(playerCards);
@@ -92,7 +94,7 @@ function hit(deck) {
 }
 
 // Stand
-function stand(deck) {
+function stand() {
   if (gameStatus === 'playing') {
     while (dealerScore < 17) {
       dealerCards.push(dealCard(deck));
@@ -132,17 +134,17 @@ function showMessage(message) {
 
 // Initialize the game
 function initGame() {
-  const deck = shuffleDeck(createDeck());
+  deck = shuffleDeck(createDeck());
 
   const newGameButton = document.getElementById('new-game');
   const hitButton = document.getElementById('hit');
   const standButton = document.getElementById('stand');
 
-  newGameButton.addEventListener('click', () => newGame(deck));
-  hitButton.addEventListener('click', () => hit(deck));
-  standButton.addEventListener('click', () => stand(deck));
+  newGameButton.addEventListener('click', () => newGame());
+  hitButton.addEventListener('click', () => hit());
+  standButton.addEventListener('click', () => stand());
 
-  newGame(deck);
+  newGame();
 }
 
 // Start the game
